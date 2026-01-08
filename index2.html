@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>จากใจเรา ถึงเธอ 💖</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',Tahoma,sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+}
+.card{
+  background:white;
+  padding:32px 28px 36px;
+  border-radius:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+  text-align:center;
+  max-width:380px;
+  width:90%;
+  animation:float 4s ease-in-out infinite;
+  z-index:2;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+h1{font-size:1.6rem;margin-top:0}
+p{font-size:1.05rem;line-height:1.6;margin-bottom:28px}
+.buttons{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+}
+button{
+  padding:12px 22px;
+  font-size:1rem;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  transition:.2s;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 16px rgba(0,0,0,.2);
+}
+.yes{background:#ff5f9e;color:white}
+.no{background:#e0e0e0;color:#333;position:relative}
+
+/* hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:rise 4s linear forwards;
+}
+@keyframes rise{
+  to{
+    transform:translateY(-110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1 id="question"></h1>
+  <p id="sub"></p>
+
+  <div class="buttons">
+    <button class="yes" id="yesBtn" onclick="sayYes()">เป็น 💖</button>
+    <button class="no" id="noBtn" onmouseover="moveNo()">ไม่เป็น 😳</button>
+  </div>
+</div>
+
+<audio id="music" loop></audio>
+
+<script>
+const loverName = "เธอ";
+
+/* คำถาม + ปุ่ม */
+const questions = [
+  {
+    q: `${loverName}คิดว่าคบกับเราดีไหม 💕`,
+    sub: "เราอาจไม่สมบูรณ์แบบ แต่จริงใจกับเธอมาก",
+    yes: "ก็ดีนะ 💗",
+    no: "ยังไม่แน่ใจ 😳"
+  },
+  {
+    q: `เวลาอยู่กับเรา ${loverName}รู้สึกยังไงบ้าง 😊`,
+    sub: "มีความสุข สบายใจ หรือยิ้มมากขึ้นไหม",
+    yes: "มีความสุขนะ ☺️",
+    no: "เฉย ๆ 😶"
+  },
+  {
+    q: `ถ้าให้เราอยู่ข้าง ๆ ${loverName}ทุกวันได้ไหม 🌸`,
+    sub: "ทั้งวันที่ดี และวันที่ไม่ค่อยดี",
+    yes: "ได้เลย 🌷",
+    no: "ขอคิดดูก่อน 🥺"
+  },
+  {
+    q: `อยากลองคบกับเราไหม 💖`,
+    sub: "ไม่ต้องรีบ แค่ตอบจากความรู้สึกของหัวใจ",
+    yes: "อยากลอง 💘",
+    no: "ยังไม่พร้อม 😳"
+  }
+];
+
+let current = 0;
+const question = document.getElementById("question");
+const sub = document.getElementById("sub");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+
+/* แสดงคำถาม */
+function render(){
+  question.textContent = questions[current].q;
+  sub.textContent = questions[current].sub;
+  yesBtn.textContent = questions[current].yes;
+  noBtn.textContent = questions[current].no;
+}
+
+render();
+
+function sayYes(){
+  spawnHearts();
+  current++;
+
+  if(current < questions.length){
+    render();
+  }else{
+    question.textContent = "งั้น…เราเป็นแฟนกันนะ 💘";
+    sub.innerHTML =
+      `ขอบคุณที่เลือกเรา ❤️<br>
+       เราจะดูแลเธอให้ดีที่สุด<br><br>
+       <small>📸 แคปหน้าจอนี้ไว้ได้เลย</small>`;
+    document.querySelector(".buttons").style.display="none";
+  }
+}
+
+function moveNo(){
+  const btn = document.querySelector(".no");
+  btn.style.transform =
+    `translate(${Math.random()*160-80}px,${Math.random()*160-80}px)`;
+}
+
+/* หัวใจลอย */
+function spawnHearts(){
+  for(let i=0;i<8;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.textContent="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=16+Math.random()*20+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),4000);
+  }
+}
+</script>
+
+</body>
+</html>
